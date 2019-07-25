@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Users from "../users/Users";
 import SidenavHeader from "../header/SidenavHeader";
 import CardProfile from "../cards/CardProfile";
 import SearchForm from "../forms/SearchForm";
+import MenuTab from "../tabs/MenuTab";
 
 const SidenavStyle = styled.aside`
   width: 100%;
@@ -20,7 +20,7 @@ const Sidenav = () => {
       <SidenavHeader />
       <CardProfile />
       <SearchForm />
-      <Users />
+      <MenuTab />
     </SidenavStyle>
   );
 };

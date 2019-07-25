@@ -5,8 +5,9 @@ import { useAppHooks } from "../../contexts";
 import User from "./User";
 
 const UsersContainer = styled.div`
-  border-radius: 10px;
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  margin: 0;
+
   & h4 {
     margin-left: 15px;
   }
