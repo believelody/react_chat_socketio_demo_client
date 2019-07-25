@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Sidenav from "../../components/sidenav/Sidenav";
-import Chat from "../../components/chats/Chat";
+import ChatDetail from "../detail/ChatDetail";
 
 const HomePageStyle = styled.div`
   width: 100%;
@@ -16,7 +16,7 @@ const HomePage = () => {
   return (
     <HomePageStyle>
       <Sidenav />
-      <Chat />
+      <ChatDetail />
     </HomePageStyle>
   );
 };

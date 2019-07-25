@@ -1,4 +1,6 @@
 import React from "react";
+import moment from "moment";
+import Moment from "react-moment";
 import styled from "styled-components";
 
 const MessageStyle = styled.li`
@@ -13,20 +15,34 @@ const MessageStyle = styled.li`
   position: relative;
   left: ${props => (!props.isYou ? "0px" : "60%")};
   /* right: ${props => (props.isYou ? "0px" : "40%")}; */
-  & h5 {
+  & .message-author {
     padding: 0;
     margin: 0;
+  }
+
+  & .message-text {
+    overflow-wrap: break-word;
+    word-break: break-all;
+  }
+
+  & .message-date {
+    float: right;
+    font-size: .8em;
+    font-style: oblique;
   }
 `;
 
 const MessageItem = ({ message, contact }) => {
-  console.log(contact)
+  console.log(message);
   return (
     <MessageStyle isYou={message.author === localStorage.username}>
-      <h5>
+      <h5 className="message-author">
         {message.author === localStorage.username ? "You" : contact.username}
       </h5>
-      <p>{message.text}</p>
+      <p className="message-text">{message.text}</p>
+      <span className="message-date">
+        - <Moment date={message.date} fromNow /> -
+      </span>
     </MessageStyle>
   );
 };

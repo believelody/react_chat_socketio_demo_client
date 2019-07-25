@@ -14,6 +14,7 @@ const ChatHeaderStyle = styled.header`
   background: #f5f5f5;
   display: flex;
   align-items: center;
+  z-index: 1;
 
   & > h4 {
     padding: 0;
@@ -49,9 +50,9 @@ const ChatHeaderStyle = styled.header`
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
-  const { useAuth, socket } = useAppHooks()
+  const { useAuth, socket } = useAppHooks();
 
-  const [dest, setDest] = useState(null)
+  const [dest, setDest] = useState(null);
 
   const headerRef = useRef();
 
@@ -73,19 +74,21 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
 
   useEffect(() => {
     if (localStorage.username) {
-      setDest(chat.users.find(user => user.username !== localStorage.username))
+      setDest(chat.users.find(user => user.username !== localStorage.username));
     }
-  }, [localStorage.username, dest])
+  }, [localStorage.username, dest]);
 
   return (
     <ChatHeaderStyle ref={headerRef}>
       <span className="btn-option" onClick={handleClick}>
         +
       </span>
-      <span className="img-contact">{dest ? dest.username[0].toUpperCase() : null}</span>
+      <span className="img-contact">
+        {dest ? dest.username[0].toUpperCase() : null}
+      </span>
       <h4>{dest ? dest.username : null}</h4>
     </ChatHeaderStyle>
-  )
+  );
 };
 
 export default ChatHeader;

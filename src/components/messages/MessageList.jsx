@@ -1,30 +1,34 @@
 import React from "react";
 import styled from "styled-components";
 import MessageItem from "./MessageItem";
-import { useAppHooks } from "../../contexts";
-
-/* const messages = [
-  { username: "Andrew", text: `Hey what's up dude?` },
-  { username: "Laki", text: `Fine and you?` },
-  { username: "Andrew", text: `I'm cool. I'm in your city. Party tonight?` },
-  { username: "Laki", text: `Aww maan too old for this now!!!` }
-]; */
 
 const MessageListStyle = styled.ul`
-  margin: 60px 0 100px;
-  padding: 0px 10px;
+  margin: 50px 0px 140px;
+  padding: 10px 10px 10px;
   display: flex;
   list-style: none;
   flex-direction: column;
+  height: calc(100% - 130px);
+  overflow: auto;
+  position: fixed;
+  scroll-behavior: smooth;
 `;
 
 const MessageList = ({ users, messages }) => {
-  const contact = users.find(user => user.username !== localStorage.username)
+  const messagesRef = React.useRef();
+  const contact = users.find(user => user.username !== localStorage.username);
+
+  React.useEffect(() => {
+    if (messagesRef)
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  }, [messages]);
 
   return (
-    <MessageListStyle>
+    <MessageListStyle ref={messagesRef}>
       {messages.length > 0 &&
-        messages.map((message, i) => <MessageItem key={i} contact={contact} message={message} />)}
+        messages.map((message, i) => (
+          <MessageItem key={i} contact={contact} message={message} />
+        ))}
     </MessageListStyle>
   );
 };

@@ -6,7 +6,7 @@ import CardProfile from "../cards/CardProfile";
 
 const SidenavStyle = styled.aside`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
   background-image: linear-gradient(-45deg, #373b44, #2c3e50);
   background-color: #2c3e50;

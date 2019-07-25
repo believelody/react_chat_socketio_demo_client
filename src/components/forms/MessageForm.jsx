@@ -30,14 +30,18 @@ const MessageBtnStyle = styled.span`
 `;
 
 const MessageForm = ({ chatId }) => {
-  const { socket } = useAppHooks()
+  const { socket } = useAppHooks();
 
   const [text, setText] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
-    socket.emit('new-message', { chatId, author: localStorage.username, text })
-    setText('')
+    socket.emit("new-message", { chatId, author: localStorage.username, text });
+    setText("");
+  };
+
+  const handleKeyPress = e => {
+    // if (e.key === "Enter") handleSubmit(e);
   };
 
   return (
@@ -46,6 +50,8 @@ const MessageForm = ({ chatId }) => {
         placeholder="Write your message"
         onChange={e => setText(e.target.value)}
         value={text}
+        onKeyPress={handleKeyPress}
+        rows={3}
       />
       <MessageBtnStyle as="button" type="submit">
         Send
