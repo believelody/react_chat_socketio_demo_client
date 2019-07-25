@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAppHooks } from "../../contexts";
+import devices from "../../utils/devices";
 
 const MessageFormStyle = styled.form`
   position: fixed;
   padding: 8px;
   bottom: 0;
   width: 80%;
-  min-height: 80px;
+  height: 80px;
   display: grid;
   grid-template-columns: 90% 10%;
   background-image: linear-gradient(-45deg, #2c3e50, #373b44);
+
+  @media ${devices.tablet} {
+    width: 65%;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+    bottom: ${props => props.isSelected ? 50 : -80}px;
+    transition: all 600ms ease-in-out;
+  }
 `;
 
 const MessageTextareaStyle = styled.textarea`
@@ -30,9 +41,12 @@ const MessageBtnStyle = styled.span`
 `;
 
 const MessageForm = ({ chatId }) => {
-  const { socket } = useAppHooks();
+  const { socket, useTransition } = useAppHooks();
+
+  const [{chatSelected}, _] = useTransition()
 
   const [text, setText] = useState("");
+  const [isSelected, setSelected] = useState(false)
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -54,8 +68,13 @@ const MessageForm = ({ chatId }) => {
     // if (e.key === "Enter") handleSubmit(e);
   };
 
+  useEffect(() => {
+    setSelected(!isSelected)
+    console.log(isSelected)
+  })
+
   return (
-    <MessageFormStyle onSubmit={handleSubmit}>
+    <MessageFormStyle isSelected={chatSelected} onSubmit={handleSubmit}>
       <MessageTextareaStyle
         placeholder="Write your message"
         onChange={e => setText(e.target.value)}

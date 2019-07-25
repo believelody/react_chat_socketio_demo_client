@@ -7,12 +7,17 @@ import ChatHeader from "../header/ChatHeader";
 import Dropdown from "../dropdown/Dropdown";
 import DropdownItem from "../dropdown/DropdownItem";
 import { useAppHooks } from "../../contexts";
+import devices from "../../utils/devices";
 
 const ChatStyle = styled.div`
   background-image: linear-gradient(to right, #e0eafc, #cfdef3);
   width: inherit;
   position: relative;
   overflow: hidden;
+
+  @media ${devices.mobileL} {
+    width: 100vw;
+  }
 `;
 
 const NoChatStyle = styled.div`
@@ -38,7 +43,6 @@ const Chat = () => {
     if (!chat) {
       socket.on('fetch-chat', chatFetched => {
         setChat(chatFetched)
-        console.log(chatFetched.users)
       })
     }
   }, [chat])

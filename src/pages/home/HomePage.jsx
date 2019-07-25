@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Sidenav from "../../components/sidenav/Sidenav";
 import ChatDetail from "../detail/ChatDetail";
@@ -13,17 +13,25 @@ const HomePageStyle = styled.div`
   display: grid;
   grid-template-columns: 20% 80%;
 
+  @media ${devices.tablet} {
+    grid-template-columns: 35% 65%;
+  }
+
   @media ${devices.mobileL} {
-    display: flex;
-    flex-wrap: no-wrap;
-    transform: translateX(${props => !props.isSelected ? 0 : 100 }%);
-    transition: all 600ms ease-in-out;
+    display: inline;
+    transform: translateY(${props => props.isSelected ? -500 : 0 }px);
+    transition: transform 600ms ease-in-out;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
   }
 `;
 
 const HomePage = () => {
   const { useTransition } = useAppHooks()
   const [{ chatSelected }, _] = useTransition()
+  
+  console.log(chatSelected)
 
   return (
     <HomePageStyle isSelected={chatSelected}>

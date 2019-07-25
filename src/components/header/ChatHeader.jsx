@@ -58,7 +58,15 @@ const ChatHeaderStyle = styled.header`
     font-style: italic;
   }
 
+  @media ${devices.tablet} {
+    width: 65%;
+  }
+
   @media ${devices.mobileL} {
+    width: 100%;
+    top: ${props => props.isSelected ? 10 : -100}px;
+    transition: top 600ms ease-in-out;
+
     & > .go-back {
       display: inline;
       padding: 5px;
@@ -73,15 +81,16 @@ const ChatHeaderStyle = styled.header`
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
   const { useTransition, socket } = useAppHooks()
 
-  const [{chatSelected}, dispatchTransition] = useTransition()
+  const [transitionState, dispatchTransition] = useTransition()
 
   const [dest, setDest] = useState(null);
   const [isTyping, setTyping] = useState(false);
+  const [isSelected, setSelected] = useState(false)
 
   const headerRef = useRef();
 
   const handleTransition = e => {
-    dispatchTransition({ type: CHAT_SELECTED, payload: false })
+    dispatchTransition({ type: CHAT_SELECTED })
   }
 
   const handleClick = e => {
@@ -99,8 +108,16 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
     }
   }, [localStorage.username, dest]);
 
+  console.log(transitionState)
+
+  useEffect(() => {
+    setSelected(!isSelected)
+    console.log(isSelected)
+  },[])
+
+
   return (
-    <ChatHeaderStyle ref={headerRef} isSelected={chatSelected}>
+    <ChatHeaderStyle ref={headerRef} isSelected={isSelected}>
       <span className="btn-option" onClick={handleClick}>
         +
       </span>

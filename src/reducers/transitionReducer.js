@@ -4,10 +4,10 @@ export const CHAT_SELECTED = 'CHAT_SELECTED'
 
 const initialState = { chatSelected: false }
 
-const reducer = (state, { type, payload }) => {
+const reducer = (state, { type }) => {
     switch (type) {
         case CHAT_SELECTED:
-            return { ...state, chatSelected: payload }
+            return { ...state, chatSelected: !state.chatSelected }
     
         default:
             return state

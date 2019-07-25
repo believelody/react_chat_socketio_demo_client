@@ -27,7 +27,7 @@ const User = ({ contact }) => {
 
   const handleClick = () => {
     socket.emit('new-chat', [contact.username, username])
-    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true })
+    if (isMobile) dispatchTransition({ type: CHAT_SELECTED })
   }
 
   useEffect(() => {
