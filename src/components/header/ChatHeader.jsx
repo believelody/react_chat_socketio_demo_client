@@ -47,6 +47,11 @@ const ChatHeaderStyle = styled.header`
     width: 40px;
     cursor: pointer;
   }
+
+  & .header-typing {
+    margin-left: 30px;
+    font-style: italic;
+  }
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
@@ -56,6 +61,8 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
 
   const headerRef = useRef();
 
+  const [isTyping, setTyping] = useState(false);
+
   const handleClick = e => {
     getHeaderPosition(
       !isDisplayed,
@@ -63,14 +70,7 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
     );
   };
 
-  /* useEffect(() => {
-    if (localStorage.username) {
-      dispatch({
-        type: SET_CURRENT_PROFILE,
-        payload: localStorage.username
-      })
-    }
-  }, [username]) */
+  socket.on("is-typing", data => setTyping(data));
 
   useEffect(() => {
     if (localStorage.username) {
@@ -84,9 +84,10 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
         +
       </span>
       <span className="img-contact">
-        {dest ? dest.username[0].toUpperCase() : null}
+        {dest && dest.username[0].toUpperCase()}
       </span>
-      <h4>{dest ? dest.username : null}</h4>
+      <h4>{dest && dest.username}</h4>
+      {isTyping && <span className="header-typing">is typing...</span>}
     </ChatHeaderStyle>
   );
 };

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Users from "../users/Users";
 import SidenavHeader from "../header/SidenavHeader";
 import CardProfile from "../cards/CardProfile";
+import SearchForm from "../forms/SearchForm";
 
 const SidenavStyle = styled.aside`
   width: 100%;
@@ -18,6 +19,7 @@ const Sidenav = () => {
     <SidenavStyle>
       <SidenavHeader />
       <CardProfile />
+      <SearchForm />
       <Users />
     </SidenavStyle>
   );
