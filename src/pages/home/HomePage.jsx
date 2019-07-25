@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Sidenav from "../../components/sidenav/Sidenav";
 import Chat from "../../components/chats/Chat";
+import devices from '../../utils/devices'
+import { useAppHooks } from "../../contexts";
 
 const HomePageStyle = styled.div`
   width: 100%;
@@ -10,11 +12,21 @@ const HomePageStyle = styled.div`
   margin: 0;
   display: grid;
   grid-template-columns: 20% 80%;
+
+  @media ${devices.mobileL} {
+    display: flex;
+    flex-wrap: no-wrap;
+    transform: translateX(${props => !props.isSelected ? 0 : 100 }%);
+    transition: all 600ms ease-in-out;
+  }
 `;
 
 const HomePage = () => {
+  const { useTransition } = useAppHooks()
+  const [{ chatSelected }, _] = useTransition()
+
   return (
-    <HomePageStyle>
+    <HomePageStyle isSelected={chatSelected}>
       <Sidenav />
       <Chat />
     </HomePageStyle>

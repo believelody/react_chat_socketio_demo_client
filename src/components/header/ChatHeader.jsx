@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useAppHooks } from "../../contexts";
-import { SET_CURRENT_PROFILE } from "../../reducers/authReducer";
+import { CHAT_SELECTED } from "../../reducers/transitionReducer";
+import devices from "../../utils/devices";
 
 const ChatHeaderStyle = styled.header`
   width: 80%;
@@ -14,6 +15,10 @@ const ChatHeaderStyle = styled.header`
   background: #f5f5f5;
   display: flex;
   align-items: center;
+
+  & > .go-back {
+    display: none;
+  }
 
   & > h4 {
     padding: 0;
@@ -46,14 +51,31 @@ const ChatHeaderStyle = styled.header`
     width: 40px;
     cursor: pointer;
   }
+
+  @media ${devices.mobileL} {
+    & > .go-back {
+      display: inline;
+      padding: 5px;
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+      width: 40px;
+      cursor: pointer;
+    }
+  }
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
-  const { useAuth, socket } = useAppHooks()
+  const { useTransition } = useAppHooks()
+
+  const [{chatSelected}, dispatchTransition] = useTransition()
 
   const [dest, setDest] = useState(null)
 
   const headerRef = useRef();
+
+  const handleTransition = e => {
+    dispatchTransition({ type: CHAT_SELECTED, payload: false })
+  }
 
   const handleClick = e => {
     getHeaderPosition(
@@ -62,15 +84,6 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
     );
   };
 
-  /* useEffect(() => {
-    if (localStorage.username) {
-      dispatch({
-        type: SET_CURRENT_PROFILE,
-        payload: localStorage.username
-      })
-    }
-  }, [username]) */
-
   useEffect(() => {
     if (localStorage.username) {
       setDest(chat.users.find(user => user.username !== localStorage.username))
@@ -78,9 +91,12 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
   }, [localStorage.username, dest])
 
   return (
-    <ChatHeaderStyle ref={headerRef}>
+    <ChatHeaderStyle ref={headerRef} isSelected={chatSelected}>
       <span className="btn-option" onClick={handleClick}>
         +
+      </span>
+      <span className='go-back' onClick={handleTransition}>
+        <i className='fas fa-chevron-left'></i>
       </span>
       <span className="img-contact">{dest ? dest.username[0].toUpperCase() : null}</span>
       <h4>{dest ? dest.username : null}</h4>

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useAppHooks } from '../../contexts';
-import { SET_CURRENT_PROFILE } from '../../reducers/authReducer';
+import { useAppHooks } from '../../contexts'
+import { SET_CURRENT_PROFILE } from '../../reducers/authReducer'
+import { CHAT_SELECTED } from '../../reducers/transitionReducer'
+import isMobile from '../../utils/isMobile'
 
 const UserStyle = styled.li`
   margin: 0;
@@ -17,17 +19,19 @@ const UserStyle = styled.li`
 `
 
 const User = ({ contact }) => {
-  const { useAuth, socket } = useAppHooks()
+  const { useAuth, useTransition, socket } = useAppHooks()
 
-  const [{username}, dispatch] = useAuth()
+  const [{username}, dispatchAuth] = useAuth()
+  const [_, dispatchTransition] = useTransition()
 
   const handleClick = () => {
     socket.emit('new-chat', [contact.username, username])
+    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true })
   }
 
   useEffect(() => {
     if (localStorage.username) {
-      dispatch({
+      dispatchAuth({
         type: SET_CURRENT_PROFILE,
         payload: localStorage.username
       })
