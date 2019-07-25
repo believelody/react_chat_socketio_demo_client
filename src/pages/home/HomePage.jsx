@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Sidenav from "../../components/sidenav/Sidenav";
-import Chat from "../../components/chats/Chat";
+import ChatDetail from "../detail/ChatDetail";
 import devices from '../../utils/devices'
 import { useAppHooks } from "../../contexts";
 
@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <HomePageStyle isSelected={chatSelected}>
       <Sidenav />
-      <Chat />
+      <ChatDetail />
     </HomePageStyle>
   );
 };

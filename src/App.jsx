@@ -13,7 +13,8 @@ const AppStyle = styled.div`
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: #e6eaea;
   font-family: "proxima-nova", "Source Sans Pro", sans-serif;
   letter-spacing: 0.1px;

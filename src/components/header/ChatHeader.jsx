@@ -15,6 +15,7 @@ const ChatHeaderStyle = styled.header`
   background: #f5f5f5;
   display: flex;
   align-items: center;
+  z-index: 1;
 
   & > .go-back {
     display: none;
@@ -51,6 +52,11 @@ const ChatHeaderStyle = styled.header`
     width: 40px;
     cursor: pointer;
   }
+  
+  & .header-typing {
+    margin-left: 30px;
+    font-style: italic;
+  }
 
   @media ${devices.mobileL} {
     & > .go-back {
@@ -65,11 +71,12 @@ const ChatHeaderStyle = styled.header`
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
-  const { useTransition } = useAppHooks()
+  const { useTransition, socket } = useAppHooks()
 
   const [{chatSelected}, dispatchTransition] = useTransition()
 
-  const [dest, setDest] = useState(null)
+  const [dest, setDest] = useState(null);
+  const [isTyping, setTyping] = useState(false);
 
   const headerRef = useRef();
 
@@ -84,11 +91,13 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
     );
   };
 
+  socket.on("is-typing", data => setTyping(data));
+
   useEffect(() => {
     if (localStorage.username) {
-      setDest(chat.users.find(user => user.username !== localStorage.username))
+      setDest(chat.users.find(user => user.username !== localStorage.username));
     }
-  }, [localStorage.username, dest])
+  }, [localStorage.username, dest]);
 
   return (
     <ChatHeaderStyle ref={headerRef} isSelected={chatSelected}>
@@ -100,8 +109,9 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
       </span>
       <span className="img-contact">{dest ? dest.username[0].toUpperCase() : null}</span>
       <h4>{dest ? dest.username : null}</h4>
+      {isTyping && <span className="header-typing">is typing...</span>}
     </ChatHeaderStyle>
-  )
+  );
 };
 
 export default ChatHeader;

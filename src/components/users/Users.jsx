@@ -5,6 +5,9 @@ import { useAppHooks } from "../../contexts";
 import User from "./User";
 
 const UsersContainer = styled.div`
+  padding: 0;
+  margin: 0;
+
   & h4 {
     margin-left: 15px;
   }
@@ -31,7 +34,6 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   socket.on("fetch-users", data => {
-    console.log(data)
     setUsers(data);
   });
 
@@ -40,7 +42,9 @@ const Users = () => {
       <h4>Ils sont en ligne:</h4>
       <UserList>
         {users.length > 0 &&
-          users.filter(user => user.username !== localStorage.username).map((user, i) => <User key={i} contact={user} />)}
+          users
+            .filter(user => user.username !== localStorage.username)
+            .map((user, i) => <User key={i} contact={user} />)}
       </UserList>
     </UsersContainer>
   );

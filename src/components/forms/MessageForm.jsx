@@ -10,7 +10,7 @@ const MessageFormStyle = styled.form`
   min-height: 80px;
   display: grid;
   grid-template-columns: 90% 10%;
-  background-image: linear-gradient(-45deg, #373b44, #2c3e50);
+  background-image: linear-gradient(-45deg, #2c3e50, #373b44);
 `;
 
 const MessageTextareaStyle = styled.textarea`
@@ -30,14 +30,28 @@ const MessageBtnStyle = styled.span`
 `;
 
 const MessageForm = ({ chatId }) => {
-  const { socket } = useAppHooks()
+  const { socket } = useAppHooks();
 
   const [text, setText] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
-    socket.emit('new-message', { chatId, author: localStorage.username, text })
-    setText('')
+    socket.emit("new-message", { chatId, author: localStorage.username, text });
+    socket.emit("stop-typing");
+    setText("");
+  };
+
+  const handleKeyPress = e => {
+    let timeout = null;
+
+    if (e.key !== "") {
+      socket.emit("typing");
+      if (timeout) clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      socket.emit("stop-typing");
+    }, 1500);
+    // if (e.key === "Enter") handleSubmit(e);
   };
 
   return (
@@ -46,6 +60,8 @@ const MessageForm = ({ chatId }) => {
         placeholder="Write your message"
         onChange={e => setText(e.target.value)}
         value={text}
+        onKeyPress={handleKeyPress}
+        rows={3}
       />
       <MessageBtnStyle as="button" type="submit">
         Send

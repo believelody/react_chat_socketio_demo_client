@@ -11,12 +11,13 @@ const UserStyle = styled.li`
   transition: all 300ms ease-in;
   cursor: pointer;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: #32465a;
     padding-left: 24px;
     border-right: 2px solid #2c3e50;
   }
-`
+`;
 
 const User = ({ contact }) => {
   const { useAuth, useTransition, socket } = useAppHooks()
@@ -34,15 +35,11 @@ const User = ({ contact }) => {
       dispatchAuth({
         type: SET_CURRENT_PROFILE,
         payload: localStorage.username
-      })
+      });
     }
-  }, [username])
+  }, [username]);
 
-  return (
-    <UserStyle onClick={handleClick}>
-      { contact.username }
-    </UserStyle>
-  )
-}
+  return <UserStyle onClick={handleClick}>{contact.username}</UserStyle>;
+};
 
-export default User
+export default User;
