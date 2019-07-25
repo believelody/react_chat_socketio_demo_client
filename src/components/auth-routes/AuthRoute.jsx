@@ -16,7 +16,7 @@ const AuthRoute = ({ component: Component, ...rest }) => {
   }, [dispatch])
 
   React.useEffect(() => {
-    if (isConnected) socket.emit("user-emit", {username, id: socket.id});
+    if (isConnected) socket.emit("user-emit", {username});
     setLoading(false)
   }, [isConnected])
 

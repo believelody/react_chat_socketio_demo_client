@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import MessageItem from "./MessageItem";
 import { useAppHooks } from "../../contexts";
@@ -19,19 +19,12 @@ const MessageListStyle = styled.ul`
 `;
 
 const MessageList = ({ users, messages }) => {
-  const { socket } = useAppHooks()
-
-  // const [messages, setMessages] = useState([])
-
-  // socket.on('fetch-messages', messagesFetched => {
-  //   console.log(messagesFetched)
-  //   setMessages(messagesFetched)
-  // })
+  const contact = users.find(user => user.username !== localStorage.username)
 
   return (
     <MessageListStyle>
       {messages.length > 0 &&
-        messages.map((message, i) => <MessageItem key={i} contact={users[0]} message={message} />)}
+        messages.map((message, i) => <MessageItem key={i} contact={contact} message={message} />)}
     </MessageListStyle>
   );
 };

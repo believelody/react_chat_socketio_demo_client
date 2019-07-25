@@ -31,6 +31,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   socket.on("fetch-users", data => {
+    console.log(data)
     setUsers(data);
   });
 
@@ -39,7 +40,7 @@ const Users = () => {
       <h4>Ils sont en ligne:</h4>
       <UserList>
         {users.length > 0 &&
-          users.filter(user => user.username !== localStorage.username).map(user => <User key={user.id} contact={user} />)}
+          users.filter(user => user.username !== localStorage.username).map((user, i) => <User key={i} contact={user} />)}
       </UserList>
     </UsersContainer>
   );

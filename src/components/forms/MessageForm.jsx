@@ -36,7 +36,7 @@ const MessageForm = ({ chatId }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    socket.emit('new-message', { chatId, userId: socket.id, text })
+    socket.emit('new-message', { chatId, author: localStorage.username, text })
     setText('')
   };
 

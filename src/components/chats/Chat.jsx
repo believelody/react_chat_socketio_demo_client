@@ -38,6 +38,7 @@ const Chat = () => {
     if (!chat) {
       socket.on('fetch-chat', chatFetched => {
         setChat(chatFetched)
+        console.log(chatFetched.users)
       })
     }
   }, [chat])

@@ -8,8 +8,8 @@ export const AppContext = createContext();
 const history = createBrowserHistory({
   forceRefresh: true
 });
-
-const socket = io(':5000');
+let herokuUrl = 'https://react-chat-socketio-server.herokuapp.com'
+const socket = io(`${herokuUrl}`);
 
 export const AppProvider = ({ children }) => {
   return (

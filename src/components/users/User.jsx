@@ -22,7 +22,7 @@ const User = ({ contact }) => {
   const [{username}, dispatch] = useAuth()
 
   const handleClick = () => {
-    socket.emit('new-chat', [contact.id, socket.id])
+    socket.emit('new-chat', [contact.username, username])
   }
 
   useEffect(() => {

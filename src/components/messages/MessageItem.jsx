@@ -22,9 +22,9 @@ const MessageStyle = styled.li`
 const MessageItem = ({ message, contact }) => {
   console.log(contact)
   return (
-    <MessageStyle isYou={message.id !== contact.id && contact.username === localStorage.username}>
+    <MessageStyle isYou={message.author === localStorage.username}>
       <h5>
-        {message.id !== contact.id && contact.username === localStorage.username ? "You" : contact.username}
+        {message.author === localStorage.username ? "You" : contact.username}
       </h5>
       <p>{message.text}</p>
     </MessageStyle>
