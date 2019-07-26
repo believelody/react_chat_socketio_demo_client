@@ -1,1 +1,1 @@
-export default () => window.screen.width <= 500
+export default window.screen.width <= 500;

@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { useAppHooks } from '../../contexts'
-import { SET_CURRENT_PROFILE } from '../../reducers/authReducer'
-import { CHAT_SELECTED } from '../../reducers/transitionReducer'
-import isMobile from '../../utils/isMobile'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { useAppHooks } from "../../contexts";
+import { SET_CURRENT_PROFILE } from "../../reducers/authReducer";
+import { CHAT_SELECTED } from "../../reducers/transitionReducer";
+import isMobile from "../../utils/isMobile";
+import { useTransition } from "../../contexts/transitionContext";
 
 const UserStyle = styled.li`
   margin: 0;
@@ -20,15 +21,14 @@ const UserStyle = styled.li`
 `;
 
 const User = ({ contact }) => {
-  const { useAuth, useTransition, socket } = useAppHooks()
-
-  const [{username}, dispatchAuth] = useAuth()
-  const [_, dispatchTransition] = useTransition()
+  const { useAuth, socket } = useAppHooks();
+  const [{ username }, dispatchAuth] = useAuth();
+  const [chatSelected, dispatch] = useTransition();
 
   const handleClick = () => {
-    socket.emit('new-chat', [contact.username, username])
-    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true })
-  }
+    socket.emit("new-chat", [contact.username, username]);
+    if (isMobile) dispatch({ type: CHAT_SELECTED, payload: true });
+  };
 
   useEffect(() => {
     if (localStorage.username) {
@@ -38,6 +38,10 @@ const User = ({ contact }) => {
       });
     }
   }, [username]);
+
+  useEffect(() => {
+    console.log(chatSelected);
+  }, [chatSelected]);
 
   return <UserStyle onClick={handleClick}>{contact.username}</UserStyle>;
 };

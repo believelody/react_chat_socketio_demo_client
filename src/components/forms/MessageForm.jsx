@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAppHooks } from "../../contexts";
+import devices from "../../utils/devices";
 
 const MessageFormStyle = styled.form`
-  position: fixed;
+  position: absolute;
   padding: 8px;
   bottom: 0;
-  width: 80%;
-  min-height: 80px;
+  left: 0;
+  width: 100%;
+  height: 80px;
   display: grid;
   grid-template-columns: 90% 10%;
   background-image: linear-gradient(-45deg, #2c3e50, #373b44);
+
+  @media ${devices.mobileL} {
+    width: 100%;
+    grid-template-columns: 85% 15%;
+  }
 `;
 
 const MessageTextareaStyle = styled.textarea`

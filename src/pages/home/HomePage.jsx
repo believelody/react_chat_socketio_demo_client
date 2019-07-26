@@ -2,28 +2,43 @@ import React from "react";
 import styled from "styled-components";
 import Sidenav from "../../components/sidenav/Sidenav";
 import ChatDetail from "../detail/ChatDetail";
-import devices from '../../utils/devices'
+import devices from "../../utils/devices";
 import { useAppHooks } from "../../contexts";
+import { useTransition } from "../../contexts/transitionContext";
 
 const HomePageStyle = styled.div`
   width: 100%;
-  min-height: 100vh;
+  max-height: 100vh;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 25% 75%;
+
+  @media ${devices.tablet} {
+    grid-template-columns: 35% 65%;
+  }
 
   @media ${devices.mobileL} {
-    display: flex;
-    flex-wrap: no-wrap;
-    transform: translateX(${props => !props.isSelected ? 0 : 100 }%);
-    transition: all 600ms ease-in-out;
+    width: 200vw;
+    position: absolute;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    left: 0;
+    transform: translateX(${props => (props.isSelected ? -100 : 0)}vw);
+    transition: all 600ms ease-in;
+    overflow: hidden;
   }
 `;
 
 const HomePage = () => {
-  const { useTransition } = useAppHooks()
-  const [{ chatSelected }, _] = useTransition()
+  const [chatSelected, _] = useTransition();
+
+  // const [isSelected, setSelected] = React.useState(false);
+
+  React.useEffect(() => {
+    console.log(chatSelected);
+    // setTimeout(() => setSelected(true), 2000);
+  }, [chatSelected]);
 
   return (
     <HomePageStyle isSelected={chatSelected}>

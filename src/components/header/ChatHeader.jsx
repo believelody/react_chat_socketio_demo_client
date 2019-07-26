@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useAppHooks } from "../../contexts";
-import { CHAT_SELECTED } from "../../reducers/transitionReducer";
+import { CHAT_UNSELECTED } from "../../reducers/transitionReducer";
 import devices from "../../utils/devices";
+import { useTransition } from "../../contexts/transitionContext";
 
 const ChatHeaderStyle = styled.header`
-  width: 80%;
+  width: 100%;
   height: 50px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  position: fixed;
+  position: absolute;
   padding: 0 0 0 25px;
   margin: 0;
   top: 0;
+  left: 0;
   background: #f5f5f5;
   display: flex;
   align-items: center;
@@ -52,15 +54,17 @@ const ChatHeaderStyle = styled.header`
     width: 40px;
     cursor: pointer;
   }
-  
+
   & .header-typing {
     margin-left: 30px;
     font-style: italic;
   }
 
   @media ${devices.mobileL} {
+    width: 100%;
+
     & > .go-back {
-      display: inline;
+      display: inline-block;
       padding: 5px;
       border-radius: 4px;
       box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
@@ -71,9 +75,9 @@ const ChatHeaderStyle = styled.header`
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
-  const { useTransition, socket } = useAppHooks()
+  const { socket } = useAppHooks();
 
-  const [{chatSelected}, dispatchTransition] = useTransition()
+  const [chatSelected, dispatchTransition] = useTransition();
 
   const [dest, setDest] = useState(null);
   const [isTyping, setTyping] = useState(false);
@@ -81,8 +85,8 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
   const headerRef = useRef();
 
   const handleTransition = e => {
-    dispatchTransition({ type: CHAT_SELECTED, payload: false })
-  }
+    dispatchTransition({ type: CHAT_UNSELECTED, payload: false });
+  };
 
   const handleClick = e => {
     getHeaderPosition(
@@ -100,14 +104,16 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
   }, [localStorage.username, dest]);
 
   return (
-    <ChatHeaderStyle ref={headerRef} isSelected={chatSelected}>
+    <ChatHeaderStyle ref={headerRef}>
       <span className="btn-option" onClick={handleClick}>
         +
       </span>
-      <span className='go-back' onClick={handleTransition}>
-        <i className='fas fa-chevron-left'></i>
+      <span className="go-back" onClick={handleTransition}>
+        <i className="fas fa-chevron-left" />
       </span>
-      <span className="img-contact">{dest ? dest.username[0].toUpperCase() : null}</span>
+      <span className="img-contact">
+        {dest ? dest.username[0].toUpperCase() : null}
+      </span>
       <h4>{dest ? dest.username : null}</h4>
       {isTyping && <span className="header-typing">is typing...</span>}
     </ChatHeaderStyle>
