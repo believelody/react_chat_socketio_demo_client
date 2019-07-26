@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {useAppHooks} from '../../contexts'
+import { useAppHooks } from "../../contexts";
 import { SET_CURRENT_PROFILE } from "../../reducers/authReducer";
 
 const CardProfileStyle = styled.div`
@@ -37,8 +37,8 @@ const statusArray = [
 ];
 
 const CardProfile = () => {
-  const { useAuth, socket } = useAppHooks()
-  const [{username}, dispatch] = useAuth();
+  const { useAuth } = useAppHooks();
+  const [{ username }, dispatch] = useAuth;
 
   const [imgBg, setImgbg] = React.useState(statusArray[0]);
 
@@ -47,15 +47,18 @@ const CardProfile = () => {
       dispatch({
         type: SET_CURRENT_PROFILE,
         payload: localStorage.username
-      })
+      });
     }
-  }, [username])
+  }, [username]);
 
-  return username &&
-    <CardProfileStyle imgBg={imgBg}>
-      <span className="img-card">{username[0].toUpperCase()}</span>
-      <h3 className="name-card">{username}</h3>
-    </CardProfileStyle>
+  return (
+    username && (
+      <CardProfileStyle imgBg={imgBg}>
+        <span className="img-card">{username[0].toUpperCase()}</span>
+        <h3 className="name-card">{username}</h3>
+      </CardProfileStyle>
+    )
+  );
 };
 
 export default CardProfile;

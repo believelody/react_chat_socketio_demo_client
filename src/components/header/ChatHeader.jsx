@@ -75,9 +75,9 @@ const ChatHeaderStyle = styled.header`
 `;
 
 const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
-  const { socket } = useAppHooks();
+  const { useTransition, socket } = useAppHooks();
 
-  const [chatSelected, dispatchTransition] = useTransition();
+  const [chatSelected, dispatchTransition] = useTransition;
 
   const [dest, setDest] = useState(null);
   const [isTyping, setTyping] = useState(false);
