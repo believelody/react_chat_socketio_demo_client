@@ -30,7 +30,9 @@ const NoChatStyle = styled.div`
 `;
 
 const Chat = () => {
-  const { socket } = useAppHooks();
+  const { useTransition, socket } = useAppHooks();
+
+  const [{ chatSelected }, _] = useTransition;
 
   const [chat, setChat] = useState(null);
   const [y, setY] = useState(0);
@@ -42,7 +44,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (!chat) {
+    if (!chat && !chatSelected) {
       socket.on("fetch-chat", chatFetched => {
         setChat(chatFetched);
       });

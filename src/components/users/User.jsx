@@ -4,7 +4,7 @@ import { useAppHooks } from "../../contexts";
 import { SET_CURRENT_PROFILE } from "../../reducers/authReducer";
 import { CHAT_SELECTED } from "../../reducers/transitionReducer";
 import isMobile from "../../utils/isMobile";
-// import { useTransition } from "../../contexts/transitionContext";
+import api from "../../api";
 
 const UserStyle = styled.li`
   margin: 0;
@@ -21,18 +21,33 @@ const UserStyle = styled.li`
 `;
 
 const User = ({ contact }) => {
-  const { useAuth, useTransition, socket } = useAppHooks();
+  const { useAuth, useTransition, history } = useAppHooks();
   const [{ username }, dispatchAuth] = useAuth;
-  const [_, dispatchTransion] = useTransition;
+  const [_, dispatchTransition] = useTransition;
 
-  const handleClick = () => {
-    socket.emit("new-chat", [contact.username, username]);
-    if (isMobile) dispatchTransion({ type: CHAT_SELECTED, payload: true });
+  const handleClick = async () => {
+    // socket.emit("new-chat", [contact.username, username]);
+    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true });
+    let users = [contact.username, username];
+    try {
+      let chatRequest = await api.chat.searchChatByUsers(users);
+
+      if (chatRequest) {
+        history.push(`/chats/${chatRequest.id}`);
+      } else {
+        let chat = await api.chat.createChat(users);
+        if (chat) {
+          history.push(`/chats/${chat.id}`);
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   useEffect(() => {
     if (localStorage.username) {
-      dispatchTransion({
+      dispatchAuth({
         type: SET_CURRENT_PROFILE,
         payload: localStorage.username
       });

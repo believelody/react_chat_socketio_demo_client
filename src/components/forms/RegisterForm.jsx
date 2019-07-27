@@ -26,7 +26,7 @@ const ButtonStyle = styled.button`
 
 const RegisterForm = () => {
   const { useAuth, history } = useAppHooks();
-  const [{ error, isConnected }, dispatch] = useAuth();
+  const [{ error, isConnected }, dispatch] = useAuth;
 
   const [username, setUsername] = useState("");
   const [errorRegister, setError] = useState(null);
@@ -66,9 +66,9 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (isConnected) {
-      history.replace('/')
+      history.replace("/");
     }
-  }, [isConnected])
+  }, [isConnected]);
 
   return (
     <FormStyle onSubmit={handleSubmit}>
