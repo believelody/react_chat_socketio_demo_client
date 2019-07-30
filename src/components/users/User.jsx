@@ -21,28 +21,28 @@ const UserStyle = styled.li`
 `;
 
 const User = ({ contact }) => {
-  const { useAuth, useTransition, history } = useAppHooks();
+  const { useAuth, useTransition, history, socket } = useAppHooks();
   const [{ username }, dispatchAuth] = useAuth;
   const [_, dispatchTransition] = useTransition;
 
   const handleClick = async () => {
-    // socket.emit("new-chat", [contact.username, username]);
-    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true });
     let users = [contact.username, username];
-    try {
-      let chatRequest = await api.chat.searchChatByUsers(users);
+    socket.emit("new-chat", users);
+    if (isMobile) dispatchTransition({ type: CHAT_SELECTED, payload: true });
+    // try {
+    //   let chatRequest = await api.chat.searchChatByUsers(users);
 
-      if (chatRequest) {
-        history.push(`/chats/${chatRequest.id}`);
-      } else {
-        let chat = await api.chat.createChat(users);
-        if (chat) {
-          history.push(`/chats/${chat.id}`);
-        }
-      }
-    } catch (error) {
-      throw error;
-    }
+    //   if (chatRequest) {
+    //     history.push(`/chats/${chatRequest.id}`);
+    //   } else {
+    //     let chat = await api.chat.createChat(users);
+    //     if (chat) {
+    //       history.push(`/chats/${chat.id}`);
+    //     }
+    //   }
+    // } catch (error) {
+    //   throw error;
+    // }
   };
 
   useEffect(() => {
