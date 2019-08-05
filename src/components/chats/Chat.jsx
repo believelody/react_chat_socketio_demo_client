@@ -11,8 +11,10 @@ import devices from "../../utils/devices";
 
 const ChatStyle = styled.div`
   background-image: linear-gradient(to right, #e0eafc, #cfdef3);
-  width: inherit;
+  width: auto;
   position: relative;
+  overflow: hidden;
+  max-height: 100vh;
   overflow: hidden;
 
   @media ${devices.mobileL} {
@@ -25,12 +27,14 @@ const NoChatStyle = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`
+`;
 
 const Chat = () => {
-  const { socket } = useAppHooks()
+  const { useTransition, socket } = useAppHooks();
 
-  const [chat, setChat] = useState(null)
+  const [{ chatSelected }, _] = useTransition;
+
+  const [chat, setChat] = useState(null);
   const [y, setY] = useState(0);
   const [isDisplayed, setDisplay] = useState(false);
 
@@ -40,17 +44,16 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (!chat) {
-      socket.on('fetch-chat', chatFetched => {
-        setChat(chatFetched)
-      })
+    if (!chat && !chatSelected) {
+      socket.on("fetch-chat", chatFetched => {
+        setChat(chatFetched);
+      });
     }
-  }, [chat])
+  }, [chat]);
 
   return (
     <ChatStyle>
-      {
-        chat ?
+      {chat ? (
         <div>
           <ChatHeader
             getHeaderPosition={getHeaderPosition}
@@ -70,9 +73,11 @@ const Chat = () => {
           <MessageList messages={chat.messages} users={chat.users} />
           <MessageForm chatId={chat.id} />
         </div>
-        :
-        <NoChatStyle>Select a chat or create one by choosing one of your contact</NoChatStyle>
-      }
+      ) : (
+        <NoChatStyle>
+          Select a chat or create one by choosing one of your contact
+        </NoChatStyle>
+      )}
     </ChatStyle>
   );
 };

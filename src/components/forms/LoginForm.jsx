@@ -26,7 +26,7 @@ const ButtonStyle = styled.button`
 
 const LoginForm = () => {
   const { useAuth, socket, history } = useAppHooks();
-  const [{ error, isConnected }, dispatch] = useAuth();
+  const [{ error, isConnected }, dispatch] = useAuth;
 
   const [username, setUsername] = useState("");
   const [errorLogin, setError] = useState(null);
@@ -69,9 +69,9 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isConnected) {
-      history.replace('/')
+      history.replace("/");
     }
-  }, [isConnected])
+  }, [isConnected]);
 
   return (
     <FormStyle onSubmit={handleSubmit}>

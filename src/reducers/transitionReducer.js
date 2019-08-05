@@ -1,17 +1,20 @@
-import { useReducer } from 'react'
+import { useReducer } from "react";
 
-export const CHAT_SELECTED = 'CHAT_SELECTED'
+export const CHAT_SELECTED = "CHAT_SELECTED";
+export const CHAT_UNSELECTED = "CHAT_UNSELECTED";
 
-const initialState = { chatSelected: false }
+export const initTransitionState = { chatSelected: false };
 
-const reducer = (state, { type }) => {
-    switch (type) {
-        case CHAT_SELECTED:
-            return { ...state, chatSelected: !state.chatSelected }
-    
-        default:
-            return state
-    }
-}
+export const transitionReducer = (state, { type, payload }) => {
+  switch (type) {
+    case CHAT_SELECTED:
+    case CHAT_UNSELECTED:
+      console.log(payload);
+      return { ...state, chatSelected: payload };
 
-export default () => useReducer(reducer, initialState)
+    default:
+      return state;
+  }
+};
+
+export default () => useReducer;

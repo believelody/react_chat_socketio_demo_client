@@ -4,23 +4,19 @@ import { useAppHooks } from "../../contexts";
 import devices from "../../utils/devices";
 
 const MessageFormStyle = styled.form`
-  position: fixed;
+  position: absolute;
   padding: 8px;
   bottom: 0;
-  width: 80%;
+  left: 0;
+  width: 100%;
   height: 80px;
   display: grid;
   grid-template-columns: 90% 10%;
   background-image: linear-gradient(-45deg, #2c3e50, #373b44);
 
-  @media ${devices.tablet} {
-    width: 65%;
-  }
-
   @media ${devices.mobileL} {
     width: 100%;
-    bottom: ${props => props.isSelected ? 50 : -80}px;
-    transition: all 600ms ease-in-out;
+    grid-template-columns: 85% 15%;
   }
 `;
 

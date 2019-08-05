@@ -5,6 +5,13 @@ import AuthRoute from "./components/auth-routes/AuthRoute";
 import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import HomePage from "./pages/home/HomePage";
+import devices from "./utils/devices";
+import { useAppHooks } from "./contexts";
+import {
+  useTransition,
+  TransitionContext,
+  TransitionProvider
+} from "./contexts/transitionContext";
 
 const AppStyle = styled.div`
   display: flex;
@@ -21,6 +28,10 @@ const AppStyle = styled.div`
   color: #32465a;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
   -webkit-font-smoothing: antialiased;
+
+  @media ${devices.mobileL} {
+    /* width: 100vw; */
+  }
 `;
 
 const App = () => {

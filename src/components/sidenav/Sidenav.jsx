@@ -13,7 +13,6 @@ const SidenavStyle = styled.aside`
   background-image: linear-gradient(-45deg, #373b44, #2c3e50);
   background-color: #2c3e50;
   color: #f5f5f5;
-  position: relative;
 
   @media ${devices.mobileL} {
     width: 100vw;
