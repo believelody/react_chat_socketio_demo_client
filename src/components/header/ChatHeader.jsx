@@ -108,8 +108,6 @@ const ChatHeader = ({ getHeaderPosition, isDisplayed, chat }) => {
     }
   }, [localStorage.username, dest]);
 
-  console.log(transitionState)
-
   useEffect(() => {
     setSelected(!isSelected)
     console.log(isSelected)

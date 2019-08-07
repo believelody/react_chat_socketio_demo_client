@@ -39,7 +39,7 @@ const MessageBtnStyle = styled.span`
 const MessageForm = ({ chatId }) => {
   const { socket, useTransition } = useAppHooks();
 
-  const [{chatSelected}, _] = useTransition()
+  const [{chatSelected}, _] = useTransition
 
   const [text, setText] = useState("");
   const [isSelected, setSelected] = useState(false)

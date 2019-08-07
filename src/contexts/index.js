@@ -16,8 +16,7 @@ const history = createBrowserHistory({
 let herokuUrl = "https://react-chat-socketio-server.herokuapp.com";
 const socket = io(`${herokuUrl}`);
 
-export const AppProvider = ({ reducers, initialState, children }) => {
-  // const [state, dispatch] = useReducer(reducers, initialState);
+export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{

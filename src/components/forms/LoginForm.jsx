@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAppHooks } from "../../contexts";
-import { SET_CURRENT_PROFILE, AUTH_FAILED } from "../../reducers/authReducer";
+import { SET_CURRENT_PROFILE, AUTH_FAILED, RESET_ERROR } from "../../reducers/authReducer";
 import TextInput from "../inputs/TextInput";
 
 const FormStyle = styled.form`
@@ -59,12 +59,14 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (error) setError(error);
+    return () => dispatch({ type: RESET_ERROR })
   }, [error]);
 
   useEffect(() => {
     if (errorLogin) {
       alert(errorLogin.message);
     }
+    return () => setError(null)
   }, [errorLogin]);
 
   useEffect(() => {
